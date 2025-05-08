@@ -150,6 +150,21 @@ class RecipeExporter {
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
+        .search-container {
+            margin: 20px 0;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
         .recipe-list {
             list-style: none;
             padding: 0;
@@ -173,16 +188,52 @@ class RecipeExporter {
         .recipe-link:hover {
             color: #3498db;
         }
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
     <h1>Recipe Collection</h1>
-    <ul class="recipe-list">
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search recipes..." id="searchInput">
+    </div>
+    <ul class="recipe-list" id="recipeList">
         ${recipes.map(recipe => `
         <li class="recipe-item">
             <a href="${recipe.path}" class="recipe-link">${recipe.title}</a>
         </li>`).join('\n        ')}
     </ul>
+    <div class="no-results" id="noResults" style="display: none;">
+        No recipes found matching your search.
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const recipeList = document.getElementById('recipeList');
+        const noResults = document.getElementById('noResults');
+        const recipeItems = recipeList.getElementsByClassName('recipe-item');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let hasResults = false;
+
+            Array.from(recipeItems).forEach(item => {
+                const recipeTitle = item.querySelector('.recipe-link').textContent.toLowerCase();
+                if (recipeTitle.includes(searchTerm)) {
+                    item.style.display = '';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = hasResults ? 'none' : 'block';
+        });
+    </script>
 </body>
 </html>`;
     }
