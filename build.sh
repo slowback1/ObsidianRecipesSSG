@@ -23,7 +23,7 @@ cp -r "$1"/* ./recipes/
 
 # Build the Docker image
 echo "Building Docker image..."
-docker build -t --push ${IMAGE_NAME}:${TAG} .
+docker build -t ${IMAGE_NAME}:${TAG} --push .
 
 # Clean up
 echo "Cleaning up..."
