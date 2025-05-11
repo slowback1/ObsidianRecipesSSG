@@ -7,8 +7,8 @@ if [ -z "$1" ]; then
 fi
 
 # Set registry URL (default to Docker Hub)
-REGISTRY=${2:-"docker.io"}
-IMAGE_NAME="slowbak1/recipe-ssg"
+REGISTRY=${2:-""}
+IMAGE_NAME="slowback1/recipe-ssg"
 TAG=$(date +%Y%m%d-%H%M%S)
 
 # Clean up any existing recipes directory
@@ -23,8 +23,8 @@ cp -r "$1"/* ./recipes/
 
 # Build the Docker image
 echo "Building Docker image..."
-docker build -t ${REGISTRY}/${IMAGE_NAME}:${TAG} .
-docker tag ${REGISTRY}/${IMAGE_NAME}:${TAG} ${REGISTRY}/${IMAGE_NAME}:latest
+docker build -t ${IMAGE_NAME}:${TAG} .
+docker tag ${IMAGE_NAME}:${TAG} ${REGISTRY}/${IMAGE_NAME}:latest
 
 # Push the images
 echo "Pushing Docker images..."
